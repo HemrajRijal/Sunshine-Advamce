@@ -15,7 +15,7 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
     @Override
     public void onTokenRefresh() {
         // Fetch updated Instance ID token.
-        Intent intent = new Intent(this, com.example.hemraj.sunshine.gcm.RegistrationIntentService.class);
+        Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
     }
 }
