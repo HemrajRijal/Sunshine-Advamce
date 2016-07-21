@@ -7,13 +7,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
+import android.support.v4.app.NotificationCompat;
 
 import com.example.hemraj.sunshine.MainActivity;
 import com.example.hemraj.sunshine.R;
 import com.google.android.gms.gcm.GcmListenerService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -44,11 +47,17 @@ public class MyGcmListenerService extends GcmListenerService {
             // Not a bad idea to check that the message is coming from your server.
             if ((senderId).equals(from)) {
                 // Process message and then post a notification of the received message.
-                String weather = data.getString(EXTRA_WEATHER);
-                String location = data.getString(EXTRA_LOCATION);
-                String alert =
-                        String.format(getString(R.string.gcm_weather_alert), weather, location);
-                sendNotification(alert);
+                try {
+                    JSONObject jsonObject = new JSONObject(data.getString(EXTRA_DATA));
+                    String weather = jsonObject.getString(EXTRA_WEATHER);
+                    String location = jsonObject.getString(EXTRA_LOCATION);
+                    String alert =
+                            String.format(getString(R.string.gcm_weather_alert), weather, location);
+                    sendNotification(alert);
+                } catch (JSONException e) {
+                    // JSON parsing failed, so we just let this message go, since GCM is not one
+                    // of our critical features.
+                }
             }
             Log.i(TAG, "Received: " + data.toString());
         }
