@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import com.example.hemraj.sunshine.data.WeatherContract;
 import com.example.hemraj.sunshine.sync.SunshineSyncAdapter;
 
+
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
  * <p>
